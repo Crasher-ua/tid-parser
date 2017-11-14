@@ -6,3 +6,5 @@ site/api/db-config.php
 site/engine/db-config.php
 site/stats/cache/db-config.php
 site/stats/number/db-config.php
+unused-archive/getter/get/db-config.php
+unused-archive/getter2.0/get/db-config.php
