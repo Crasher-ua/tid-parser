@@ -1,0 +1,18 @@
+.slider-horizontal{
+	margin:0 10px;
+}
+#last-time-holder{
+	display:none;
+}
+.settings-hor-title{
+	text-align:right;
+}
+#panel-main .row{
+	padding-bottom:10px;
+}
+#log{
+	max-height:300px;
+	overflow-y:scroll;
+}
+/*@media (min-width:592px) {
+}*/
