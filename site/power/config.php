@@ -9,8 +9,8 @@
 	$limit_days=3;
 
 	$lets_play_database=true;
-	$hostname='localhost';
+	$hostname='';
 	$username='';
 	$password='';
 	$database='';
-	include_once('db-config.php');
+	include_once('../../db-config.php');

@@ -11,7 +11,7 @@
 	$username='';
 	$password='';
 	$database='';
-	include_once('db-config.php');
+	include_once('../../db-config.php');
 
 	$connection=mysql_connect($hostname,$username,$password,$database);
 	if(!$connection)
