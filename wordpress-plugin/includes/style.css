@@ -1,0 +1,73 @@
+#track-it-down .handlediv:before{
+	content: '\f142';
+	right:12px;
+	font:400 20px/1 dashicons;
+	speak:none;
+	display:inline-block;
+	padding:8px 10px;
+	top:0;
+	position:relative;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+	text-decoration:none!important;
+}
+#track-it-down.closed .handlediv:before{
+	content:'\f140';
+}
+#track-it-down h3{
+	font-size:14px;
+	padding:8px 12px;
+	margin:0;
+	line-height:1.4;
+}
+#track-it-down .dashicons{
+	text-decoration:none;
+}
+
+#tid-table-main{
+	margin-top:15px;
+}
+#tid-table-main table{
+	border-collapse:collapse;
+	width:100%;
+}
+#tid-table-main td{
+	padding:0 3px;
+}
+#tid-table-main .recent{
+	background:#CAF28A;
+}
+.only-new tbody tr{
+	display:none;
+}
+.only-new tbody tr.recent{
+	display:table-row;
+}
+
+.tid-table-dubstep{
+	display:none;
+}
+.tid-table-outer{
+	position:relative;
+	padding-top:22px;
+}
+.tid-table-inner{
+	overflow-y:auto;
+	height:400px;
+}
+.tid-table-inner th{
+	height:0;
+	line-height:0;
+	padding-top:0;
+	padding-bottom:0;
+	color:transparent;
+	border:none;
+	white-space:nowrap;
+}
+.tid-table-inner th div{
+	position:absolute;
+	background:transparent;
+	top:0;
+	line-height:normal;
+	color:#000;
+}
