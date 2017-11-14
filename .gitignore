@@ -4,3 +4,5 @@ site/db-config.php
 site/sftp-config.json
 site/api/db-config.php
 site/engine/db-config.php
+site/stats/cache/db-config.php
+site/stats/number/db-config.php
