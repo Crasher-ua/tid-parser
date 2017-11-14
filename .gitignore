@@ -1,2 +1,6 @@
 wordpress-plugin/sftp-config.json
 site/power/db-config.php
+site/db-config.php
+site/sftp-config.json
+site/api/db-config.php
+site/engine/db-config.php
