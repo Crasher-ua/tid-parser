@@ -23,12 +23,7 @@
 		mysql_set_charset('utf8',$connection);
 
 		$releases_db=array();
-		$result=mysql_query("SELECT * FROM tid WHERE "
-							."DATEDIFF(CURDATE(),`added`)<".($limit_days+1)
-							." AND (genre='".join("' OR genre='",$our_genres_tid)."')"
-							." AND YEAR(STR_TO_DATE(`date`,'%M %d,%Y'))>2014"
-							//." AND DATEDIFF(CURDATE(),STR_TO_DATE(`date`,'%M %d,%Y'))<=1"
-							." ORDER BY genre,STR_TO_DATE(`date`,'%M %d,%Y') DESC");
+		$result = DbApi.getReleaseToGenres(limit_days, our_genres_tid);
 		while($row=mysql_fetch_assoc($result)){
 			$releases_db[$row['id']]=$row;
 		}

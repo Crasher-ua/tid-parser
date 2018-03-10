@@ -11,7 +11,7 @@
 	mysql_select_db($database,$connection);
 	mysql_set_charset('utf8',$connection);
 
-	$result=mysql_query("SELECT *,IF(DATEDIFF(CURDATE(),`added`)<2,1,0) AS recent FROM tid WHERE (genre='Drum & Bass' OR genre='Dubstep' OR genre='Breaks') AND YEAR(STR_TO_DATE(`date`,'%M %d,%Y'))>2014 AND DATEDIFF(CURDATE(),STR_TO_DATE(`date`,'%M %d,%Y'))<=1 ORDER BY genre,STR_TO_DATE(`date`,'%M %d,%Y') DESC");
+	$result = DbApi.getIndexData();
 
 	$dnb=array();
 	$recent_dnb=0;

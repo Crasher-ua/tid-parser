@@ -4,24 +4,7 @@
 	$time=$time[1]+$time[0];
 	$start=$time;
 
-	error_reporting(E_ALL);
-	ini_set('display_errors',1);
-
-	$hostname='';
-	$username='';
-	$password='';
-	$database='';
-	include_once('../../db-config.php');
-
-	$connection=mysql_connect($hostname,$username,$password,$database);
-	if(!$connection)
-		die('error: failed to connect to MySQL: '.mysql_error());
-	mysql_select_db($database,$connection);
-	mysql_set_charset('utf8',$connection);
-
 	function n($x){return number_format($x,0,'.',' ');}
-
-	ini_set('max_execution_time',60);
 
 	/* ————————————————————————————————————————————————————————————————— */
 
@@ -37,7 +20,7 @@
 	//if($drop<0)		die('error: bad drop');
 	if($offset<0)	die('error: bad offset');
 
-	$result=mysql_query('SELECT COUNT(*) AS rows,MIN(id) AS min,MAX(id) AS max FROM tid');
+	$result = DbApi.getRowsData();
 	if(!mysql_num_rows($result))die('error: empty result');
 	$row=mysql_fetch_assoc($result);
 	$min=$row['min'];//copy file before
@@ -79,7 +62,7 @@
 				while(count($urls)<$range){
 					$ids=list_ids($from,$range);
 					$from-=$range;
-					$result=mysql_query('SELECT id FROM tid WHERE id IN ('.join(',',$ids).')');
+					$result = DbApi.recheckData($ids);
 					while($row=mysql_fetch_assoc($result)){
 						$id=intval($row['id']);
 						$pos=array_search($id,$ids);
@@ -128,7 +111,7 @@
 			$date		="'".mysql_real_escape_string(trim($date))."'";
 			$catalog_id	="'".mysql_real_escape_string(trim($catalog_id))."'";
 
-			$result=mysql_query("INSERT INTO tid(id,title,artist,genre,label,`date`,catalog_id,added) VALUES ($id,$title,$artist,$genre,$label,$date,$catalog_id,NOW())");
+			$result = DbApi.saveRelease($id, $title, $artist, $genre, $label, $date, $catalog_id);
 			return $result!==false;
 		}
 		return false;

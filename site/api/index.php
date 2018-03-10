@@ -1,23 +1,5 @@
 <?php
-	$hostname='';
-	$username='';
-	$password='';
-	$database='';
-	include_once('../../db-config.php');
-
-	$connection=mysql_connect($hostname,$username,$password,$database);
-	if(!$connection)
-		die('error: failed to connect to MySQL: '.mysql_error());
-	mysql_select_db($database,$connection);
-	mysql_set_charset('utf8',$connection);
-
-	$result=mysql_query("SELECT *"
-						.",IF(YEAR(STR_TO_DATE(`date`,'%M %d,%Y'))>YEAR(CURDATE()),YEAR(STR_TO_DATE(`date`,'%M %d,%Y')),DATE_FORMAT(STR_TO_DATE(`date`,'%M %d,%Y'),'%d/%m')) AS date_simple"
-						.",IF(DATEDIFF(CURDATE(),`added`)<2,1,0) AS recent"
-						." FROM tid WHERE (genre='Drum & Bass' OR genre='Dubstep')"
-						." AND YEAR(STR_TO_DATE(`date`,'%M %d,%Y'))>2014"
-						." AND DATEDIFF(CURDATE(),STR_TO_DATE(`date`,'%M %d,%Y'))<=1"
-						." ORDER BY genre,STR_TO_DATE(`date`,'%M %d,%Y')");
+	$result = DbApi.getTableData();
 
 	$dnb=array();
 	$recent_dnb=0;
@@ -40,17 +22,17 @@
 	}
 
 	function table($src){
-		//moved to table-template.html
+		//moved to tid-table-template.html
 	}
 ?>
 <!-- //dnb//(<?php echo count($dnb); ?>, +<?php echo $recent_dnb; ?>) -->
 <!-- //dubstep//(<?php echo count($dubstep); ?>, +<?php echo $recent_dubstep; ?>) -->
 
 <div class="tid-table tid-table-dnb"
-   tid-table-template="dnb">
+   tid-table="dnb">
 </div>
 <div class="tid-table tid-table-dubstep"
-   tid-table-template="dubstep">
+   tid-table="dubstep">
 </div>
 
 <?php die(); ?>

@@ -14,7 +14,7 @@
 	mysql_select_db($database,$connection);
 	mysql_set_charset('utf8',$connection);
 
-	$result=mysql_query('SELECT COUNT(*) AS rows,MAX(id) AS max FROM tid');
+	$result = DbApi.getStatsNumberData();
 	$row=mysql_fetch_assoc($result);
 
 	$number=$row['rows'];

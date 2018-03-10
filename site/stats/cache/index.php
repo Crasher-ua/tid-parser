@@ -28,7 +28,7 @@
 <?php
 	ini_set('max_execution_time',60*10);
 
-	$result=mysql_query('SELECT id,genre FROM tid ORDER BY id');
+	$result = DbApi.getStatsCacheData();
 	$str='';
 	while($row=mysql_fetch_assoc($result)){
 		$str .= $row['id'].'=>'."'".$row['genre']."',";
