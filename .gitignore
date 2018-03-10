@@ -1,3 +1,4 @@
 wordpress-plugin/sftp-config.json
 site/sftp-config.json
 db-config.php
+node_modules

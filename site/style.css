@@ -1,53 +1,53 @@
 .mlabel .remove{
-	/*display:none;*/
-	cursor:pointer;
+    /*display:none;*/
+    cursor:pointer;
 }
 table .mlabel .remove{
-	float:right;
+    float:right;
 }
 table .mlabel:hover .remove{
-	display:block;
+    display:block;
 }
 .list .mlabel .remove{
-	padding-left:5px;
+    padding-left:5px;
 }
 .list .mlabel:hover .remove{
-	display:inline-block;
+    display:inline-block;
 }
 #labels-to-remove{
-	display:none;
+    display:none;
 }
 .only-new tbody tr{
-	display:none;
+    display:none;
 }
 .only-new tbody tr.success{
-	display:table-row;
+    display:table-row;
 }
 
 .tag{
-	font-size:14px;
-	padding:.3em .4em .35em;
-	margin:0 .1em .3em;
-	display:inline-block;
+    font-size:14px;
+    padding:.3em .4em .35em;
+    margin:0 .1em .3em;
+    display:inline-block;
 }
 .tag a{
-	color:#bbb;
-	cursor:pointer;
-	opacity:0.6;
+    color:#bbb;
+    cursor:pointer;
+    opacity:0.6;
 }
 .tag a:hover{
-	opacity:1.0;
+    opacity:1.0;
 }
 .tag .remove{
-	vertical-align:middle;
-	top:0;
-	margin-right:-.1em;
+    vertical-align:middle;
+    top:0;
+    margin-right:-.1em;
 }
 .tag a .glyphicon-white{
-	color:#fff;
+    color:#fff;
 }
 
 #alert-main{
-	max-width:400px;
-	margin:0 auto;
+    max-width:400px;
+    margin:0 auto;
 }
