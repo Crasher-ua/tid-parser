@@ -23,7 +23,9 @@
         <script type="text/javascript" src="core.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
-    <body>
+    <body ng-app="TidApp" tid-engine-form>
+        <script src="../../vendors/angular.1.2.28.min.js"></script>
+
         <div class="container">
             <h1 class="header">TID</h1>
 
@@ -110,5 +112,7 @@
             <!-- <button class="btn btn-info" onclick="return_value()">return value</button> -->
             <!-- for test only -->
         </div>
+
+        <script src="tid-engine.js"></script>
     </body>
 </html>
