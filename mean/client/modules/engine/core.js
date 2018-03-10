@@ -1,3 +1,5 @@
+//TODO: remove this at all after moving logic to angular
+
 var MODE,
     mode_changed=false,
     empty_number=0;
