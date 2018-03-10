@@ -40,45 +40,17 @@
 	}
 
 	function table($src){
-		?>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>artist</th>
-						<th>title</th>
-						<th>label</th>
-						<th>date</th>
-						<th>catalog</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($src as $row){ ?>
-						<tr<?php if($row['recent'])echo ' class="recent"'; ?>>
-							<td><a href="https://www.trackitdown.net/track/artist/title/genre/<?php echo $row['id']; ?>.html" target="_blank" title="<?php echo $row['id']; ?>"><span class="dashicons dashicons-share-alt2"></span></a></td>
-							<td><?php echo str_replace(' featuring ',' ft. ',$row['artist']); ?></td>
-							<td><?php echo str_replace(array(' (Original Mix)',' - Original Mix',' (Original)',' (original)'),'',$row['title']); ?></td>
-							<td class="mlabel"><?php echo $row['label']; ?></td>
-							<td><?php echo $row['date_simple']; ?></td>
-							<td>
-								<?php $c=$row['catalog_id'];$catalog_max_length=99; ?>
-								<span title="<?php echo $c; ?>"><?php echo (strlen($c)>$catalog_max_length ? substr($c,-9) . '…':$c); ?></span>
-							</td>
-						</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-		<?php
+		//moved to table-template.html
 	}
 ?>
 <!-- //dnb//(<?php echo count($dnb); ?>, +<?php echo $recent_dnb; ?>) -->
 <!-- //dubstep//(<?php echo count($dubstep); ?>, +<?php echo $recent_dubstep; ?>) -->
 
-<div class="tid-table tid-table-dnb">
-	<?php table($dnb); ?>
+<div class="tid-table tid-table-dnb"
+   tid-table-template="dnb">
 </div>
-<div class="tid-table tid-table-dubstep">
-	<?php table($dubstep); ?>
+<div class="tid-table tid-table-dubstep"
+   tid-table-template="dubstep">
 </div>
 
 <?php die(); ?>

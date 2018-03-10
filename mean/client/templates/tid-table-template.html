@@ -1,0 +1,48 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>artist</th>
+            <th>title</th>
+            <th>label</th>
+            <th>date</th>
+            <th>catalog</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in dummyCtrl.rows"
+           ng-class="{recent: row.recent}">
+            <td>
+                <a target="_blank"
+                   title="{{row.id}}"
+                   ng-href="https://www.trackitdown.net/track/artist/title/genre/{{row.id}}.html">
+                    <span class="dashicons dashicons-share-alt2"></span>
+                </a>
+            </td>
+
+            <!-- TODO: replace ' featuring ' -> ' ft. ' -->
+            <td ng-bind="row.artist"></td>
+
+            <!-- TODO: replace [' (Original Mix)',' - Original Mix',' (Original)',' (original)'] -> '' -->
+            <td ng-bind="row.title"></td>
+
+            <td class="mlabel"
+               ng-bind="row.label">
+            </td>
+
+            <!-- TODO: use camelCase -->
+            <td ng-bind="row.date_simple"></td>
+
+            <!-- TODO: count
+                c = row.catalog_id;
+                catalog_max_length = 99;
+                catalog = (c.length > catalog_max_length ? substr(c, -9) . '…' : c);
+            -->
+            <td>
+                <span title="{{row.catalog_id}}"
+                   ng-bind="catalog">
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
