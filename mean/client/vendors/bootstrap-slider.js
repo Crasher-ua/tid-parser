@@ -1,3 +1,4 @@
+// seiyria.github.io/bootstrap-slider
 (function(root,factory){if(typeof define==="function"&&define.amd){define(["jquery"],factory);}else if(typeof module==="object"&&module.exports){var jQuery;try{jQuery=require("jquery");}catch(err){jQuery=null;}
 module.exports=factory(jQuery);}else{root.Slider=factory(root.jQuery);}}(this,function($){var Slider;(function($){'use strict';var slice=Array.prototype.slice;function noop(){}
 function defineBridget($){if(!$){return;}

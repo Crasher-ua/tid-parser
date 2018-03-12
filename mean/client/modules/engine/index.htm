@@ -4,11 +4,6 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
 
         <title>TID</title>
 
@@ -18,7 +13,6 @@
 
         <link rel="stylesheet" type="text/css" href="../../vendors/bootstrap-slider.css">
         <script type="text/javascript" src="../../vendors/bootstrap-slider.js"></script>
-        <!-- seiyria.github.io/bootstrap-slider -->
 
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
@@ -87,6 +81,7 @@
                             <span id="max-empty-val"
                                ng-bind="tidEngineFormCtrl.maxEmptyRequests">
                             </span>
+
                             <span class="hidden-xs">requests, then drop to recheck</span>
                         </div>
                     </div>
@@ -97,9 +92,11 @@
                             <input id="log-size" data-slider-id="log-size-slider" data-val-id="log-size-val" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100"
                                ng-model="tidEngineFormCtrl.logSize"
                                tid-engine-slider="0, 10, 50, 100, 200, 500, 1000">
+
                             <span id="log-size-val"
                                ng-bind="tidEngineFormCtrl.logSize">
                             </span>
+
                             <span class="hidden-xs">
                                 , older will be cleaned
                                 <a id="clean-log" class="btn btn-link"
@@ -134,32 +131,37 @@
                         (<span class="hidden-xs">last time: </span><span id="last-time" ng-bind="tidEngineFormCtrl.lastTime"></span>s)
                     </div>
                 </div>
+
                 <div class="col-xs-2">
                     <span class="glyphicon glyphicon-chevron-right"></span>
                     <span id="offset" ng-bind="tidEngineFormCtrl.currentOffset"></span>
                 </div>
+
                 <div class="col-xs-2">
                     <span class="glyphicon glyphicon-arrow-up"></span>
                     <span id="requests-sent" ng-bind="tidEngineFormCtrl.requestsSentAmount"></span>
                 </div>
+
                 <div class="col-xs-2">
                     <span class="glyphicon glyphicon-ok"></span>
                     <span id="success-number" ng-bind="tidEngineFormCtrl.successNumber"></span>
                 </div>
+
                 <div class="col-xs-4">
-                    <!-- <button class="btn btn-link pull-right" id="clean-log"><span class="glyphicon glyphicon-trash"></span></button> -->
                     <span class="glyphicon glyphicon-flash"></span>
                     <span id="status"
                        ng-bind="tidEngineFormCtrl.currentStatus">
                     </span>
                 </div>
             </div>
+
             <div class="panel panel-default">
                 <div id="log" class="panel-body">
                     <div ng-repeat="row in tidEngineFormCtrl.logRows | limitTo: tidEngineFormCtrl.logSize"
                        ng-bind="row"></div>
                 </div>
             </div>
+
             <!-- <div id="result">results will be here</div> -->
 
             <!-- <button class="btn btn-info" onclick="return_value()">return value</button> -->
