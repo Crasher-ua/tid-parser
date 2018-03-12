@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const del = require('del');
 const concat = require('gulp-concat');
-const gulpCopy = require('gulp-copy');
 
 gulp.task('clean', (callback) => {
     del(['./build'], callback);
@@ -35,10 +34,6 @@ gulp.task('concat-css', ['clean'], () => {
 
 gulp.task('copy-css-fonts', ['clean'], () => {
     return gulp.src(['../../vendors/fonts/**']).pipe(gulp.dest('build/fonts'));
-
-    return gulp.src('../../vendors/fonts')
-        .pipe(gulpCopy('fonts'))
-        .pipe(gulp.dest('build'));
 });
 
 gulp.task('default', ['concat-js', 'concat-css', 'copy-css-fonts']);
