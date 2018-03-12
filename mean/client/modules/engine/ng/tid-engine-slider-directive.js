@@ -5,14 +5,17 @@ export default function TidEngineSlider($parse) {
         //TODO: use directive with template instead
         link($scope, $element, $attrs) {
             applySlider();
-            applyInitialValue();
             handleSliderChange();
 
             function applySlider() {
                 $element.slider({
                     ticks: getTicks(),
                     // ticks_labels:['$0','$100','$200','$300','$400'],
-                    ticks_snap_bounds: 10
+                    ticks_snap_bounds: 10,
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    value: $scope.$eval($attrs.ngModel)
                 });
             }
 
@@ -20,10 +23,6 @@ export default function TidEngineSlider($parse) {
                 const ticksList = $attrs.tidEngineSlider;
                 const ticksArray = `[${ticksList}]`;
                 return $scope.$eval(ticksArray);
-            }
-
-            function applyInitialValue() {
-                setNgModelValue($attrs.sliderValue);
             }
 
             function handleSliderChange() {

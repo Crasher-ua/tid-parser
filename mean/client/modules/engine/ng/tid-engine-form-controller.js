@@ -13,6 +13,9 @@ export default function TidEngineFormController($interval, $http) {
         logRows: [],
         requestsSentAmount: 0,
         successNumber: 0,
+        maxEmptyRequests: 10,
+        logSize: 100,
+        waitTime: 100,
 
         init,
         onStartClick,
