@@ -98,10 +98,10 @@
                         <div class="col-lg-3 col-md-4 col-xs-5 settings-hor-title">Maximum waiting time</div>
                         <div class="col-lg-9 col-md-8 col-xs-7">
                             <input type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100"
-                               ng-model="tidEngineFormCtrl.vm.waitTime"
+                               ng-model="tidEngineFormCtrl.waitTime"
                                tid-engine-slider="30, 60, 100, 120, 600, 1000">
 
-                            <span ng-bind="tidEngineFormCtrl.vm.waitTime"></span>
+                            <span ng-bind="tidEngineFormCtrl.waitTime"></span>
                             <span class="hidden-xs"> seconds, then retry</span>
                         </div>
                     </div>
