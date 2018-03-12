@@ -1,7 +1,6 @@
 const path = require('path');
 
 module.exports = {
-    plugins: [],
     entry: {
         'tid-engine': './ng/tid-app-entry-point.js'
     },
@@ -11,6 +10,9 @@ module.exports = {
         filename: '[name].js'
     },
     resolve: {
+        alias: {
+            angular: path.resolve(__dirname, '../../vendors/angular.1.2.28.min.js')
+        },
         modules: ['./ng']
     },
     module: {
