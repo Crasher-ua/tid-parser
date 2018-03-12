@@ -3,12 +3,13 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const del = require('del');
 const concat = require('gulp-concat');
+const runSequence = require('run-sequence');
 
 gulp.task('clean', (callback) => {
     del(['./build'], callback);
 });
 
-gulp.task('webpack', ['clean'], (callback) => {
+gulp.task('webpack', (callback) => {
     webpack(webpackConfig, callback);
 });
 
@@ -22,7 +23,7 @@ gulp.task('concat-js', ['webpack'], () => {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('concat-css', ['clean'], () => {
+gulp.task('concat-css', () => {
     return gulp.src([
             '../../vendors/bootstrap.css',
             '../../vendors/bootstrap-slider.css',
@@ -32,8 +33,15 @@ gulp.task('concat-css', ['clean'], () => {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('copy-css-fonts', ['clean'], () => {
+gulp.task('copy-css-fonts', () => {
     return gulp.src(['../../vendors/fonts/**']).pipe(gulp.dest('build/fonts'));
 });
 
-gulp.task('default', ['concat-js', 'concat-css', 'copy-css-fonts']);
+gulp.task('default', (done) => {
+    runSequence('clean', ['concat-js', 'concat-css', 'copy-css-fonts'], done);
+});
+
+gulp.task('watch', () => {
+    gulp.watch('style.css', ['concat-css']);
+    gulp.watch('ng/*.js', ['concat-js']);
+});
