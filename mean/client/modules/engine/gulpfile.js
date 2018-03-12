@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const del = require('del');
 const concat = require('gulp-concat');
+const gulpCopy = require('gulp-copy');
 
 gulp.task('clean', (callback) => {
     del(['./build'], callback);
@@ -12,7 +13,7 @@ gulp.task('webpack', ['clean'], (callback) => {
     webpack(webpackConfig, callback);
 });
 
-gulp.task('concat', ['webpack'], () => {
+gulp.task('concat-js', ['webpack'], () => {
     return gulp.src([
             '../../vendors/jquery.js',
             '../../vendors/bootstrap-slider.js',
@@ -22,4 +23,22 @@ gulp.task('concat', ['webpack'], () => {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('default', ['concat']);
+gulp.task('concat-css', ['clean'], () => {
+    return gulp.src([
+            '../../vendors/bootstrap.css',
+            '../../vendors/bootstrap-slider.css',
+            'style.css'
+        ])
+        .pipe(concat('tid-styles.css'))
+        .pipe(gulp.dest('build'));
+});
+
+gulp.task('copy-css-fonts', ['clean'], () => {
+    return gulp.src(['../../vendors/fonts/**']).pipe(gulp.dest('build/fonts'));
+
+    return gulp.src('../../vendors/fonts')
+        .pipe(gulpCopy('fonts'))
+        .pipe(gulp.dest('build'));
+});
+
+gulp.task('default', ['concat-js', 'concat-css', 'copy-css-fonts']);
