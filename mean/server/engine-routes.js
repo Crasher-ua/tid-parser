@@ -1,8 +1,6 @@
 const DbApi = require('./db-api');
 
 module.exports = function(router) {
-    router.get('/', (req, res) => res.json({message: 'I am working!'}));
-
     //TODO: make it working, not only compilable
     router.get('/check-list', ({query}, res) => {
         const range = 10;
@@ -22,16 +20,17 @@ module.exports = function(router) {
         }
 
         const {min, max, rows: rowsNumber} = result;
-        // $min=min($row['min'],intval(file_get_contents('min.txt')));
+        // min = Math.min(min, fileGetContents('min.txt'));
 
         let urls = [];
         let offsetDelta = range;
 
-        // if(isset($save_min))file_put_contents('min.txt',$min);
+        // if (saveMin)) filePutContents('min.txt', min);
 
         if (mode === 'incremental') {
             urls = listUrls(max + 1 + offset, range);
-            /*$start=$max+1+$offset;for($i=0;$i<$incremental_steps;$i++)$urls[]=url($start+$i);*/
+            //start = max + 1 + offset;
+            //for (i = 0; i < incrementalSteps; i++) urls.push(url(start + i));
         }
 
         //TODO: check recheck
@@ -56,24 +55,16 @@ module.exports = function(router) {
             }
 
             offsetDelta = max - offset - fromNumber;
-            /*$start=$max-1-$offset;for($i=0;$i<$range;$i++)$urls[]=url($start-$i);*/
+            //start = max - 1 - offset;
+            //for (i = 0; i < range; i++) urls.push(url(start - i));
         }
-
-        /*
-        if (mode === 'deepscan') {
-            //забудь
-            //$urls=list_urls($min-$range,$range);
-            //$start=$min-1;for($i=0;$i<$range;$i++)$urls[]=url($start-$i);
-            //$min-=$range;
-            //$save_min=true;
-        }
-        */
 
         const successUrls = [];
 
         //TODO: check isSimpleType if we need it
         if (isSimpleType) {
             urls.forEach((url) => {
+                //TODO: remove try/catch
                 try {
                     if (saveRelease(getDomFromUrl($url), idFromUrl($url))) {
                         successUrls.push(url);
@@ -96,10 +87,10 @@ module.exports = function(router) {
         }
 
         return res.json({
-            success_number: successUrls.length,
-            success_urls: successUrls.join(','),
-            all_urls: urls.join(','),
-            offset_delta: offsetDelta,
+            successNumber: successUrls.length,
+            successUrls: successUrls.join(','),
+            allUrls: urls.join(','),
+            offsetDelta,
             max
         });
     });
@@ -145,22 +136,22 @@ module.exports = function(router) {
             let genre = box('#trackDetailGenreName', 0).getPlainText();
             let label = box('#trackDetailRecordlabelName', 0).getPlainText();
             let date = box('#trackDetailReleaseDate', 0).getPlainText();
-            let catalog_id = box('#trackDetailCatalogueNo', 0);
+            let catalogId = box('#trackDetailCatalogueNo', 0);
 
-            if(!catalog_id) {
-                catalog_id = '';
+            if(!catalogId) {
+                catalogId = '';
             } else {
-                catalog_id = catalog_id.getPlainText();
+                catalogId = catalogId.getPlainText();
             }
 
-            title = `'${mysql_real_escape_string(title.trim())}'`;
-            artist = `'${mysql_real_escape_string(artist.trim())}'`;
-            genre = `'${mysql_real_escape_string(genre.trim())}'`;
-            label = `'${mysql_real_escape_string(label.trim())}'`;
-            date = `'${mysql_real_escape_string(date.trim())}'`;
-            catalog_id = `'${mysql_real_escape_string(catalog_id.trim())}'`;
+            title = `'${mysqlRealEscapeString(title.trim())}'`;
+            artist = `'${mysqlRealEscapeString(artist.trim())}'`;
+            genre = `'${mysqlRealEscapeString(genre.trim())}'`;
+            label = `'${mysqlRealEscapeString(label.trim())}'`;
+            date = `'${mysqlRealEscapeString(date.trim())}'`;
+            catalogId = `'${mysqlRealEscapeString(catalogId.trim())}'`;
 
-            const result = DbApi.saveRelease(id, title, artist, genre, label, date, catalog_id);
+            const result = DbApi.saveRelease(id, title, artist, genre, label, date, catalogId);
             return result !== false;
         }
 
@@ -172,21 +163,19 @@ module.exports = function(router) {
             return 'error: no mode';
         }
 
-        //if (!isset($_GET['drop'])) die('error: no drop');
+        //if (!drop) return 'error: no drop';
 
         if (!offset) {
             return 'error: no offset';
         }
 
-        //$drop = intval($_GET['drop']);
-        //if($drop<0)       die('error: bad drop');
+        //if (drop < 0) return 'error: bad drop';
 
         if (offset < 0) {
             return 'error: bad offset';
         }
 
-        //TODO: remove deepscan
-        if (!['recheck', 'incremental', 'deepscan'].includes(mode)) {
+        if (!['recheck', 'incremental'].includes(mode)) {
             return 'error: bad mode';
         }
     }
@@ -210,7 +199,7 @@ module.exports = function(router) {
         });
     }
 
-    function mysql_real_escape_string(str) {
+    function mysqlRealEscapeString(str) {
         return str;
     }
 };

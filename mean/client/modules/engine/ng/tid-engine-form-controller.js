@@ -160,20 +160,20 @@ export default function TidEngineFormController($interval, $http) {
             .then(({data}) => {
                 //TODO: remove try/catch
                 try {
-                    vm.successNumber += data.success_number;
+                    vm.successNumber += data.successNumber;
 
-                    if (data.success_number) {
+                    if (data.successNumber) {
                         emptyRequestsAmount = 0;
                     } else {
                         emptyRequestsAmount++;
                     }
 
-                    const successList = list(data.success_urls);
-                    const allList = list(data.all_urls);
-                    logInfo(`${data.success_number} (${successList} / ${allList}), max=${data.max}`);
+                    const successList = list(data.successUrls);
+                    const allList = list(data.allUrls);
+                    logInfo(`${data.successNumber} (${successList} / ${allList}), max=${data.max}`);
 
-                    if (data.offset_delta) {
-                        vm.currentOffset += data.offset_delta - 1;
+                    if (data.offsetDelta) {
+                        vm.currentOffset += data.offsetDelta - 1;
                     }
                 } catch(e) {
                     console.log('error', e, data);
