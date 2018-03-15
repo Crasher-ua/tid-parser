@@ -5,10 +5,7 @@ Here we have TID parser. This is test program, which parses TID and stores resul
 Also currently it is not working during migration period. But it is expected.
 
 ## Usage
+At first you should install required packages using `npm install`.
 
-* Server side in /mean/server
-  * node engine-server.js
-  * nodemon engine-server.js
-* Client side in /mean/client/modules/engine
-  * gulp
-  * gulp watch
+* `npm run app-run` -- build client and start server
+* `npm run app-dev` -- build client, start server and watch client+server changes

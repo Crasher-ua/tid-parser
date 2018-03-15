@@ -3,3 +3,4 @@ site/sftp-config.json
 db-config.php
 node_modules
 mean/client/modules/engine/build
+npm-debug.log

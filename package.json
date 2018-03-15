@@ -10,6 +10,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
     "del": "^1.2.1",
     "express": "^4.16.3",
     "gulp": "^3.9.1",
@@ -33,7 +34,14 @@
       ]
     ]
   },
-  "scripts": {},
+  "scripts": {
+    "client-build": "cd mean/client/modules/engine && gulp",
+    "client-watch": "cd mean/client/modules/engine && gulp watch",
+    "server-run": "node mean/server/engine-server.js",
+    "server-watch": "nodemon mean/server/engine-server.js",
+    "app-run": "npm run client-build && npm run server-run",
+    "app-dev": "concurrently \"npm run client-build && npm run client-watch\" \"npm run server-watch\""
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Crasher-ua/tid-parser.git"
