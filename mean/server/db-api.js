@@ -38,7 +38,7 @@ function DbApi() {
         return someDb.get(oldSqlRequest);*/
     }
 
-    function saveRelease(id, title, artist, genre, label, date, catalog_id) {
+    function saveRelease({id, title, artist, genre, label, date, catalogId}) {
         return true;
         /*const oldSqlRequest = `
             INSERT INTO tid(id, title, artist, genre, label, `date`, catalog_id, added)
@@ -51,7 +51,7 @@ function DbApi() {
     function getRowsData() {
         return {
             min: 13,
-            max: 21,
+            max: 12402165,
             rows: 30
         };
 

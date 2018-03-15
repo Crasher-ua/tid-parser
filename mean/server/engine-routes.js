@@ -1,4 +1,6 @@
 const DbApi = require('./db-api');
+const TidParser = require('./tid-parser');
+const request = require('sync-request');
 
 module.exports = function(router) {
     //TODO: make it working, not only compilable
@@ -6,7 +8,8 @@ module.exports = function(router) {
         const range = 10;
         const isSimpleType = false;
 
-        const {offset, mode} = query;
+        const offset = +query.offset;
+        const {mode} = query;
 
         const error = validateQueryParameters(mode, offset);
         if (error) {
@@ -75,12 +78,13 @@ module.exports = function(router) {
             });
         } else {
             urls.forEach((url) => {
-                const {data, statusCode} = requestHtmlContent(url);
+                const {body, statusCode} = fetchPage(url);
+
                 if (statusCode !== 200) {
                     return;
                 }
 
-                if (saveRelease(getDomFromString(data), idFromUrl(url))) {
+                if (saveRelease(body, idFromUrl(url))) {
                     successUrls.push(url);
                 }
             });
@@ -95,15 +99,13 @@ module.exports = function(router) {
         });
     });
 
-    function requestHtmlContent(url) {
-        //TODO: remove mock
-        const data = `<html>
-            <body>
-                <div>smth here</div>
-            </body>
-        </html>`;
+    function fetchPage(url) {
+        const html = request('GET', url);
 
-        return {statusCode: 200, data};
+        return {
+            statusCode: html.statusCode,
+            body: html.body.toString('utf-8')
+        };
     }
 
     function url(id) {
@@ -128,34 +130,14 @@ module.exports = function(router) {
     }
 
     function saveRelease(html, id) {
-        const box = html.getElement('#mainContentForPage', 0);
+        const parsedData = TidParser(html);
 
-        if (box('h1', 0) !== null && box('#trackDetailArtistName', 0) !== null) {
-            let title = box('h1', 0).getPlainText();
-            let artist = box('#trackDetailArtistName', 0).getPlainText();
-            let genre = box('#trackDetailGenreName', 0).getPlainText();
-            let label = box('#trackDetailRecordlabelName', 0).getPlainText();
-            let date = box('#trackDetailReleaseDate', 0).getPlainText();
-            let catalogId = box('#trackDetailCatalogueNo', 0);
-
-            if(!catalogId) {
-                catalogId = '';
-            } else {
-                catalogId = catalogId.getPlainText();
-            }
-
-            title = `'${mysqlRealEscapeString(title.trim())}'`;
-            artist = `'${mysqlRealEscapeString(artist.trim())}'`;
-            genre = `'${mysqlRealEscapeString(genre.trim())}'`;
-            label = `'${mysqlRealEscapeString(label.trim())}'`;
-            date = `'${mysqlRealEscapeString(date.trim())}'`;
-            catalogId = `'${mysqlRealEscapeString(catalogId.trim())}'`;
-
-            const result = DbApi.saveRelease(id, title, artist, genre, label, date, catalogId);
-            return result !== false;
+        if (!parsedData) {
+            return false;
         }
 
-        return false;
+        const result = DbApi.saveRelease(Object.assign({id}, parsedData));
+        return result !== false;
     }
 
     function validateQueryParameters(mode, offset) {
@@ -181,10 +163,6 @@ module.exports = function(router) {
     }
 
     function getDomFromUrl(url) {
-        return getElement();
-    }
-
-    function getDomFromString(url) {
         return getElement();
     }
 
