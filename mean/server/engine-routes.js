@@ -6,7 +6,6 @@ module.exports = function(router) {
     //TODO: make it working, not only compilable
     router.get('/check-list', ({query}, res) => {
         const range = 10;
-        const isSimpleType = false;
 
         const offset = +query.offset;
         const {mode} = query;
@@ -23,17 +22,13 @@ module.exports = function(router) {
         }
 
         const {min, max, rows: rowsNumber} = result;
-        // min = Math.min(min, fileGetContents('min.txt'));
 
         let urls = [];
         let offsetDelta = range;
 
-        // if (saveMin)) filePutContents('min.txt', min);
-
         if (mode === 'incremental') {
+            //TODO: add ability to use incremental steps, not only list from A to B
             urls = listUrls(max + 1 + offset, range);
-            //start = max + 1 + offset;
-            //for (i = 0; i < incrementalSteps; i++) urls.push(url(start + i));
         }
 
         //TODO: check recheck
@@ -58,37 +53,21 @@ module.exports = function(router) {
             }
 
             offsetDelta = max - offset - fromNumber;
-            //start = max - 1 - offset;
-            //for (i = 0; i < range; i++) urls.push(url(start - i));
         }
 
         const successUrls = [];
 
-        //TODO: check isSimpleType if we need it
-        if (isSimpleType) {
-            urls.forEach((url) => {
-                //TODO: remove try/catch
-                try {
-                    if (saveRelease(getDomFromUrl($url), idFromUrl($url))) {
-                        successUrls.push(url);
-                    }
-                } catch(error) {
-                    console.log('catched error:', error);
-                }
-            });
-        } else {
-            urls.forEach((url) => {
-                const {body, statusCode} = fetchPage(url);
+        urls.forEach((url) => {
+            const {body, statusCode} = fetchPage(url);
 
-                if (statusCode !== 200) {
-                    return;
-                }
+            if (statusCode !== 200) {
+                return;
+            }
 
-                if (saveRelease(body, idFromUrl(url))) {
-                    successUrls.push(url);
-                }
-            });
-        }
+            if (saveRelease(body, idFromUrl(url))) {
+                successUrls.push(url);
+            }
+        });
 
         return res.json({
             successNumber: successUrls.length,
@@ -145,13 +124,9 @@ module.exports = function(router) {
             return 'error: no mode';
         }
 
-        //if (!drop) return 'error: no drop';
-
         if (!offset) {
             return 'error: no offset';
         }
-
-        //if (drop < 0) return 'error: bad drop';
 
         if (offset < 0) {
             return 'error: bad offset';
@@ -160,24 +135,5 @@ module.exports = function(router) {
         if (!['recheck', 'incremental'].includes(mode)) {
             return 'error: bad mode';
         }
-    }
-
-    function getDomFromUrl(url) {
-        return getElement();
-    }
-
-    function getElement() {
-        const box = function() {
-            return getElement();
-        };
-
-        return Object.assign(box, {
-            getElement,
-            getPlainText: () => ''
-        });
-    }
-
-    function mysqlRealEscapeString(str) {
-        return str;
     }
 };
