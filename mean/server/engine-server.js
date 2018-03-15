@@ -8,6 +8,10 @@ const engineRoutes = require('./engine-routes');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); //TODO: only for localhost
+    next();
+});
 
 const port = process.env.PORT || 8080;
 const router = express.Router();

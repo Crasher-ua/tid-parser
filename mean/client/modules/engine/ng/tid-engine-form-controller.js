@@ -1,5 +1,4 @@
-//TODO: move $http to service/resource
-export default function TidEngineFormController($interval, $http) {
+export default function TidEngineFormController($interval, tidEngineResource) {
     const vm = this;
     let currentMode;
     let isModeChanged = false;
@@ -151,33 +150,20 @@ export default function TidEngineFormController($interval, $http) {
         isModeChanged = false;
         vm.requestsSentAmount++;
 
-        const data = {
-            mode: currentMode,
-            //drop: $('#scan-drop').val(),
-            offset: vm.currentOffset
-        };
-        $http.get('core.php', data)
+        tidEngineResource.checkList(currentMode, vm.currentOffset)
             .then(({data}) => {
-                //TODO: remove try/catch
-                try {
-                    vm.successNumber += data.successNumber;
+                vm.successNumber += data.successNumber;
 
-                    if (data.successNumber) {
-                        emptyRequestsAmount = 0;
-                    } else {
-                        emptyRequestsAmount++;
-                    }
+                emptyRequestsAmount = data.successNumber
+                    ? 0
+                    : emptyRequestsAmount + 1;
 
-                    const successList = list(data.successUrls);
-                    const allList = list(data.allUrls);
-                    logInfo(`${data.successNumber} (${successList} / ${allList}), max=${data.max}`);
+                const successList = list(data.successUrls);
+                const allList = list(data.allUrls);
+                logInfo(`${data.successNumber} (${successList} / ${allList}), max=${data.max}`);
 
-                    if (data.offsetDelta) {
-                        vm.currentOffset += data.offsetDelta - 1;
-                    }
-                } catch(e) {
-                    console.log('error', e, data);
-                    logInfo('error, logged to console');
+                if (data.offsetDelta) {
+                    vm.currentOffset += data.offsetDelta - 1;
                 }
 
                 returnValue();

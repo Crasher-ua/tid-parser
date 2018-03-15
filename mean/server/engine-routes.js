@@ -12,13 +12,13 @@ module.exports = function(router) {
 
         const error = validateQueryParameters(mode, offset);
         if (error) {
-            return res.json({error});
+            return res.status(400).json({error});
         }
 
         const result = DbApi.getRowsData();
 
         if (!result) {
-            return res.json({error: 'error: empty result'});
+            return res.status(403).json({error: 'error: empty result'});
         }
 
         const {min, max, rows: rowsNumber} = result;
@@ -124,7 +124,7 @@ module.exports = function(router) {
             return 'error: no mode';
         }
 
-        if (!offset) {
+        if (typeof offset !== 'number') {
             return 'error: no offset';
         }
 
