@@ -89,7 +89,9 @@ export default function TidEngineFormController($interval, tidEngineResource) {
 
     function changeMode(newMode) {
         currentMode = newMode;
-        console.log(currentMode); //TODO: remove
+
+        //TODO: remove
+        console.log(currentMode); //eslint-disable-line no-console, no-undef
 
         if (!isAnyButtonActive()) {
             vm.currentOffset = 0;
@@ -99,17 +101,17 @@ export default function TidEngineFormController($interval, tidEngineResource) {
     }
 
     function onCleanLogClick() {
-        logRows.length = 0;
+        vm.logRows.length = 0;
     }
 
-    function resetTime(){
+    function resetTime() {
         vm.lastTime = vm.timeText;
         vm.timeText = 0;
         vm.lastTimeVisible = true;
     }
 
-    function logInfo(str){
-        logRows.unshift(str);
+    function logInfo(str) {
+        vm.logRows.unshift(str);
     }
 
     function returnValue() {
@@ -137,7 +139,7 @@ export default function TidEngineFormController($interval, tidEngineResource) {
             return;
         }
 
-        if (vm.maxEmptyRequests && emptyRequestsAmount == vm.maxEmptyRequests && vm.modeIncrementalActive){
+        if (vm.maxEmptyRequests && emptyRequestsAmount === vm.maxEmptyRequests && vm.modeIncrementalActive) {
             onModeRecheckClick();
             logInfo(`Dropped to recheck holes mode, because limit=${vm.maxEmptyRequests} reached`);
         }
@@ -146,7 +148,7 @@ export default function TidEngineFormController($interval, tidEngineResource) {
         fetchTidData();
     }
 
-    function fetchTidData(){
+    function fetchTidData() {
         isModeChanged = false;
         vm.requestsSentAmount++;
 
@@ -158,8 +160,8 @@ export default function TidEngineFormController($interval, tidEngineResource) {
                     ? 0
                     : emptyRequestsAmount + 1;
 
-                const successList = list(data.successUrls);
-                const allList = list(data.allUrls);
+                const successList = joinList(data.successUrls);
+                const allList = joinList(data.allUrls);
                 logInfo(`${data.successNumber} (${successList} / ${allList}), max=${data.max}`);
 
                 if (data.offsetDelta) {
@@ -170,12 +172,12 @@ export default function TidEngineFormController($interval, tidEngineResource) {
             });
     }
 
-    function list(list){
+    function joinList(list) {
         if (!list.length) {
             return '';
         }
 
-        let urls = list.split(',');
+        const urls = list.split(',');
 
         const fullUrls = urls.map((url) => {
             const id = /\/(\d+)\.html/.exec(url)[1];

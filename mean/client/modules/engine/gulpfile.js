@@ -1,19 +1,29 @@
+/* global require */
+
 const gulp = require('gulp');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const del = require('del');
 const concat = require('gulp-concat');
 const runSequence = require('run-sequence');
+const eslint = require('gulp-eslint');
 
 gulp.task('clean', (callback) => {
     del(['./build'], callback);
+});
+
+gulp.task('eslint', () => {
+    return gulp.src(['ng/*.js', '*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 gulp.task('webpack', (callback) => {
     webpack(webpackConfig, callback);
 });
 
-gulp.task('concat-js', ['webpack'], () => {
+gulp.task('concat-js', ['eslint', 'webpack'], () => {
     return gulp.src([
             '../../vendors/jquery.js',
             '../../vendors/bootstrap-slider.js',

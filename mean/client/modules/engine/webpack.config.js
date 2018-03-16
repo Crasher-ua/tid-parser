@@ -1,3 +1,5 @@
+/* global require, __dirname */
+
 const path = require('path');
 
 module.exports = {

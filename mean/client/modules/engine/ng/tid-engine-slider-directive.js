@@ -11,7 +11,7 @@ export default function TidEngineSlider($parse) {
                 $element.slider({
                     ticks: getTicks(),
                     // ticks_labels:['$0','$100','$200','$300','$400'],
-                    ticks_snap_bounds: 10,
+                    ticks_snap_bounds: 10, //eslint-disable-line camelcase
                     min: 0,
                     max: 100,
                     step: 1,
