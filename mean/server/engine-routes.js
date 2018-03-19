@@ -1,11 +1,13 @@
+/* global require */
+
 const DbApi = require('./db-api');
-const TidParser = require('./tid-parser');
+const tidParser = require('./tid-parser');
 const request = require('sync-request');
 
 module.exports = function(router) {
     //TODO: make it working, not only compilable
     router.get('/check-list', ({query}, res) => {
-        const range = 10;
+        const range = 3; //TODO: make it 10
 
         const offset = +query.offset;
         const {mode} = query;
@@ -15,13 +17,13 @@ module.exports = function(router) {
             return res.status(400).json({error});
         }
 
-        const result = DbApi.getRowsData();
+        const dbRowsConfig = DbApi.getRowsData();
 
-        if (!result) {
-            return res.status(403).json({error: 'error: empty result'});
+        if (!dbRowsConfig) {
+            return res.status(403).json({error: 'error: empty result'}); //TODO change error message, add 'db config'
         }
 
-        const {min, max, rows: rowsNumber} = result;
+        const {max} = dbRowsConfig; //TODO: use min, rows: rowsNumber
 
         let urls = [];
         let offsetDelta = range;
@@ -38,13 +40,13 @@ module.exports = function(router) {
             while (urls.length < range) {
                 const ids = listIds(fromNumber, range);
                 fromNumber -= range;
-                const result = DbApi.recheckData($ids);
+                const dbRows = DbApi.recheckData(ids);
 
-                result.forEach(({id}) => {
+                dbRows.forEach(({id}) => {
                     const pos = ids.indexOf(id);
 
                     if (pos !== -1) {
-                        ids.splice(pos, 1)
+                        ids.splice(pos, 1);
                     }
                 });
 
@@ -87,7 +89,7 @@ module.exports = function(router) {
         };
     }
 
-    function url(id) {
+    function getUrl(id) {
         return `http://www.trackitdown.net/track/artist/title/genre/${id}.html`;
     }
 
@@ -97,7 +99,7 @@ module.exports = function(router) {
     }
 
     function listUrlsFromIds(ids) {
-        return ids.map(url);
+        return ids.map(getUrl);
     }
 
     function listUrls(fromNumber, range) {
@@ -109,7 +111,7 @@ module.exports = function(router) {
     }
 
     function saveRelease(html, id) {
-        const parsedData = TidParser(html);
+        const parsedData = tidParser(html);
 
         if (!parsedData) {
             return false;

@@ -1,10 +1,14 @@
+/* global require, console */
+/* eslint-disable no-console */
+
 const jsdom = require('jsdom').jsdom;
 const doc = jsdom();
 const window = doc.defaultView;
 const jQuery = require('jquery')(window);
 
 module.exports = function TidParser(html) {
-    const dom = jQuery(html);
+    //TODO: apply configuration with console, without 'angular/ng_angularelement' for BE
+    const dom = jQuery(html); //eslint-disable-line angular/ng_angularelement
     const box = dom.find('#mainContentForPage');
 
     const mainData = getMainData(box);
@@ -13,12 +17,12 @@ module.exports = function TidParser(html) {
     }
 
     const additionalData = getAdditionalData(box);
-    const catalogId = getCatalogId(box)
+    const catalogId = getCatalogId(box);
 
     const parsedData = Object.assign(mainData, {catalogId}, additionalData);
     log(parsedData);
     return parsedData;
-}
+};
 
 function getMainData(box) {
     const headerBlock = box.find('h1');

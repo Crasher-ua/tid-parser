@@ -12,8 +12,16 @@ gulp.task('clean', (callback) => {
     del(['./build'], callback);
 });
 
-gulp.task('eslint', () => {
+gulp.task('eslint-client', () => {
     return gulp.src(['ng/*.js', '*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
+//TODO: move gulp upper
+gulp.task('eslint-server', () => {
+    return gulp.src(['../../../server/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
@@ -23,7 +31,7 @@ gulp.task('webpack', (callback) => {
     webpack(webpackConfig, callback);
 });
 
-gulp.task('concat-js', ['eslint', 'webpack'], () => {
+gulp.task('concat-js', ['eslint-client', 'webpack'], () => {
     return gulp.src([
             '../../vendors/jquery.js',
             '../../vendors/bootstrap-slider.js',

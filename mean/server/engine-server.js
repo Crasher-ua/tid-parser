@@ -1,3 +1,6 @@
+/* global require, process, console */
+/* eslint-disable no-console */
+
 require('babel-register');
 require('babel-polyfill');
 
@@ -14,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 const port = process.env.PORT || 8080;
-const router = express.Router();
+const router = express.Router(); //eslint-disable-line new-cap
 
 engineRoutes(router);
 

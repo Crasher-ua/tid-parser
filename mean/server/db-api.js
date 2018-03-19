@@ -1,4 +1,6 @@
-module.exports = DbApi();
+/* eslint-disable lines-around-comment */
+
+module.exports = DbApi(); //eslint-disable-line new-cap
 
 //TODO: remove mocks
 function DbApi() {
@@ -14,7 +16,7 @@ function DbApi() {
     };
 
     function getTableData() {
-        const oldSqlRequest = `SELECT *
+        /*const oldSqlRequest = `SELECT *
             , IF(YEAR(STR_TO_DATE('date' '%M %d,%Y')) > YEAR(CURDATE()), YEAR(STR_TO_DATE('date', '%M %d,%Y')), DATE_FORMAT(STR_TO_DATE('date', '%M %d,%Y'), '%d/%m')) AS date_simple
             , IF(DATEDIFF(CURDATE(), 'added') < 2, 1, 0) AS recent
             FROM tid WHERE (genre = 'Drum & Bass' OR genre = 'Dubstep')
@@ -23,13 +25,13 @@ function DbApi() {
             ORDER BY genre, STR_TO_DATE('date', '%M %d,%Y')
         `;
 
-        return someDb.get(oldSqlRequest);
+        return someDb.get(oldSqlRequest);*/
     }
 
     function recheckData(ids) {
         return [
             {id: 123},
-            {id: 456}
+            {id: ids || 456}
         ];
 
         /*const idsList = ids.join();
@@ -39,7 +41,8 @@ function DbApi() {
     }
 
     function saveRelease({id, title, artist, genre, label, date, catalogId}) {
-        return true;
+        return !id || {id, title, artist, genre, label, date, catalogId};
+
         /*const oldSqlRequest = `
             INSERT INTO tid(id, title, artist, genre, label, `date`, catalog_id, added)
             VALUES (${id}, ${title}, ${artist}, ${genre}, ${label}, ${date}, ${catalog_id}, NOW())
@@ -59,9 +62,9 @@ function DbApi() {
         return someDb.get(oldSqlRequest);*/
     }
 
-    function getReleaseToGenres(limit_days, our_genres_tid) {
-        const maxDate = limit_days + 1;
-        const genres = our_genres_tid.join('\' OR genre=\'');
+    function getReleaseToGenres(limitDays, ourGenresTid) {
+        const maxDate = limitDays + 1;
+        const genres = ourGenresTid.join('\' OR genre=\'');
 
         const oldSqlRequest = `
             SELECT * FROM tid WHERE "
@@ -71,17 +74,17 @@ function DbApi() {
             ORDER BY genre, STR_TO_DATE('date', '%M %d,%Y') DESC
         `;
 
-        return someDb.get(oldSqlRequest);
+        return oldSqlRequest;
     }
 
     function getStatsCacheData() {
-        const oldSqlRequest = `SELECT id, genre FROM tid ORDER BY id`;
-        return someDb.get(oldSqlRequest);
+        const oldSqlRequest = 'SELECT id, genre FROM tid ORDER BY id';
+        return oldSqlRequest;
     }
 
     function getStatsNumberData() {
-        const oldSqlRequest = `SELECT COUNT(*) AS rows, MAX(id) AS max FROM tid`;
-        return someDb.get(oldSqlRequest);
+        const oldSqlRequest = 'SELECT COUNT(*) AS rows, MAX(id) AS max FROM tid';
+        return oldSqlRequest;
     }
 
     function getIndexData() {
@@ -94,6 +97,6 @@ function DbApi() {
             AND DATEDIFF(CURDATE(), STR_TO_DATE('date', '%M %d,%Y')) <= 1
             ORDER BY genre, STR_TO_DATE('date', '%M %d,%Y') DESC
         `;
-        return someDb.get(oldSqlRequest);
+        return oldSqlRequest;
     }
 }
